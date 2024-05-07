@@ -24,7 +24,7 @@ const HokmSelector: React.FC<Props> = ({ handleHokm }) => {
             rotation={[0, -Math.PI / 2, 0]}
         >
             <boxGeometry args={[2, 0.1, 2]} />
-            <meshPhongMaterial color='black' map={textures[suit]} alphaMap={textures[suit]} transparent />
+            <meshPhongMaterial color='white' map={textures[suit]} />
         </mesh>
     );
 

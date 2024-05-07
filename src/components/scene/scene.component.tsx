@@ -264,6 +264,35 @@ const Scene: React.FC = () => {
     setHelperIndex(3);
   }
 
+  // useFrame(({ camera }, delta) => {
+  //   if (helperIndex === 0) {
+  //       let target = new Vector3(-15,15,15)
+  //     camera.position.lerp(target,0.03);
+  //     camera.lookAt(0, 0, 0);
+  //   }
+
+  //   if (helperIndex === 1) {
+  //       let target = new Vector3(-13,12,-5)
+  //       camera.position.lerp(target,0.01);
+  //       camera.lookAt(-8,8,-5)
+  //     }
+
+  //     if (helperIndex === 2) {
+  //       let target = new Vector3(-10,12,-5)
+  //       camera.position.lerp(target,0.08);
+  //       camera.lookAt(-5,8,-5)
+  //     }
+
+  //     if (helperIndex === 3) {
+  //       let target = new Vector3(-13,12,0)
+  //       camera.position.lerp(target,0.08);
+  //       camera.lookAt(0,2,-0)
+  //     }
+
+
+
+  // });
+
   useFrame(({ camera }, delta) => {
     const cameraPositions = [
       new Vector3(-15, 15, 15),
@@ -279,7 +308,7 @@ const Scene: React.FC = () => {
       new Vector3(0, 2, 0)
     ];
   
-    const lerpFactor = 0.03; // Adjust this value to control the smoothness of the camera movement
+    const lerpFactor = 0.04; // Adjust this value to control the smoothness of the camera movement
   
     if (helperIndex >= 0 && helperIndex < cameraPositions.length) {
       camera.position.lerp(cameraPositions[helperIndex], lerpFactor);

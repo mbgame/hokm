@@ -45,7 +45,7 @@ const Card: React.FC<CardProps> = ({ type, number , width = 10, height = 15,  po
         onComplete: onAnimationComplete, // notify parent component when animation completes
       })
         .to(meshRef.current.position, {
-          duration: gameIndex ? 0.5 : 0.01,
+          duration: gameIndex ? 0.5 : 0.1,
           delay: 0.1,
           x: animatePos[0],
           y: animatePos[1],
