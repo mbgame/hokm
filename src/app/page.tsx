@@ -6,10 +6,11 @@ import { Canvas } from '@react-three/fiber';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Loading from "../components/loading/loading";
+import Scene from "../components/scene/scene.component";
 
-const SceneWithNoSSR = dynamic(() => import('../components/scene/scene.component'), {
-  ssr: false,
-});
+// const SceneWithNoSSR = dynamic(() => import('../components/scene/scene.component'), {
+//   ssr: false,
+// });
 
 
 const Home: NextPage = () => {
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
       {loading ? 
       <Loading /> :
       <Canvas shadows style={{ width: '100vw', height: '100vh',backgroundColor: 'black' }}>
-        <SceneWithNoSSR  />
+        <Scene  />
       </Canvas>
       }
     </main>
