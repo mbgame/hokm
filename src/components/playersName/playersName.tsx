@@ -15,7 +15,7 @@ const PlayersName: React.FC<Props> = ({ names = ['player1','player2','player3','
         fontSize={0.5}
         anchorX="center" // Horizontal center alignment of the text
         anchorY="middle" // Vertical center alignment of the text
-        position={[-6, 5, 0]} // Position of the text in 3D space
+        position={[-6, 4.6, 0]} // align with the cards (above the felt)
         rotation={[-Math.PI/2,0, 3 * Math.PI/2]}
       >
         {names[0]}
@@ -25,7 +25,7 @@ const PlayersName: React.FC<Props> = ({ names = ['player1','player2','player3','
         fontSize={0.5}
         anchorX="center" // Horizontal center alignment of the text
         anchorY="middle" // Vertical center alignment of the text
-        position={[0, 5, 9]} // Position of the text in 3D space
+        position={[0, 4.6, 9]} // align with the cards (above the felt)
         rotation={[-Math.PI/2,0, -2 * Math.PI]}
       >
         {names[1]}
@@ -35,7 +35,7 @@ const PlayersName: React.FC<Props> = ({ names = ['player1','player2','player3','
         fontSize={0.5}
         anchorX="center" // Horizontal center alignment of the text
         anchorY="middle" // Vertical center alignment of the text
-        position={[6, 5, 0]} // Position of the text in 3D space
+        position={[6, 4.6, 0]} // align with the cards (above the felt)
         rotation={[-Math.PI/2,0,  Math.PI/2]}
       >
         {[names[2]]}
@@ -45,7 +45,7 @@ const PlayersName: React.FC<Props> = ({ names = ['player1','player2','player3','
         fontSize={0.5}
         anchorX="center" // Horizontal center alignment of the text
         anchorY="middle" // Vertical center alignment of the text
-        position={[0, 5, -9]} // Position of the text in 3D space
+        position={[0, 4.6, -9]} // align with the cards (above the felt)
         rotation={[-Math.PI/2,0, 3 * Math.PI]}
       >
         {names[3]}

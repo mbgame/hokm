@@ -1,0 +1,64 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(40px, 11vw, 84px);
+  font-weight: 900;
+  letter-spacing: 10px;
+  margin: 0;
+  background: linear-gradient(100deg, #ffe9a8, #ffb347 40%, #fff3cf 55%, #ffae33 75%, #ffe9a8);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(255, 170, 50, 0.45));
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { to { background-position: 220% center; } }
+
+.startBtn {
+  pointer-events: auto;
+  position: relative;
+  padding: 18px 52px;
+  font-family: inherit;
+  font-size: clamp(18px, 4.5vw, 24px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #15110a;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ffe08a, #ffb24d);
+  box-shadow: 0 10px 30px rgba(255, 170, 60, 0.55);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.startBtn:hover { filter: brightness(1.06); }
+.startBtn:active { transform: scale(0.97); }
+/* attention pulse ring */
+.startBtn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 210, 120, 0.8);
+  animation: ring 1.6s ease-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(255, 170, 60, 0.55); }
+  50%      { transform: scale(1.06); box-shadow: 0 16px 40px rgba(255, 190, 80, 0.75); }
+}
+@keyframes ring {
+  0%   { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.5); opacity: 0; }
+}

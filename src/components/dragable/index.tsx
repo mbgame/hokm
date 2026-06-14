@@ -4,7 +4,7 @@ import { useGesture } from "@use-gesture/react";
 import { useSpring, a } from "@react-spring/three";
 
 type Props = {
-  children: string | JSX.Element | JSX.Element[];
+  children: string | React.JSX.Element | React.JSX.Element[];
 };
 
 export function Dragable({children}: Props) {

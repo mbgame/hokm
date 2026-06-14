@@ -1,9 +1,25 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useMemo} from 'react';
 import { useLoader, useFrame } from '@react-three/fiber';
 import { TextureLoader, DoubleSide } from 'three';
 import { Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
+import { ATLAS_URL, cardName, indexOf, uvFor } from './atlasLayout';
+import CardGlow from '../shaders/cardGlow';
+
+// Build a texture sampling one cell of the shared atlas (clones share the GPU
+// image, so the whole deck is a single texture upload).
+function atlasCell(atlas: THREE.Texture, name: string): THREE.Texture {
+  const t = atlas.clone();
+  const uv = uvFor(indexOf(name));
+  t.repeat.set(uv.repeatX, uv.repeatY);
+  t.offset.set(uv.offsetX, uv.offsetY);
+  t.colorSpace = THREE.SRGBColorSpace;
+  // anisotropic filtering keeps the face crisp at grazing angles (cheap)
+  t.anisotropy = 8;
+  t.needsUpdate = true;
+  return t;
+}
 
 interface CardProps {
 
@@ -22,15 +38,17 @@ interface CardProps {
   gameIndex:number;
   animationIndex:number;
   currentSet?:boolean;
+  canPlay?:boolean;
   onAnimationComplete: () => void;
   setPlayerCard: (type:any,number:any) => void;
 }
 
-const Card: React.FC<CardProps> = ({ type, number , width = 10, height = 15,  position = [0, 0, 0], rotation = [0, 0, 0] , 
+const Card: React.FC<CardProps> = ({ type, number , width = 10, height = 15,  position = [0, 0, 0], rotation = [0, 0, 0] ,
     scale = [1, 1, 1], shadow = false , animate = false, animatePos= [0,0,0], animateRotation = [0,0,0], onAnimationComplete,setPlayerCard,
-   cardIndex , gameIndex , animationIndex, currentSet=false}) => {
-  const frontTexture = useLoader(TextureLoader, `/textures/cards/${number}_of_${type}.png`);
-  const backTexture = useLoader(TextureLoader, `/textures/cards/back.png`);
+   cardIndex , gameIndex , animationIndex, currentSet=false, canPlay=true}) => {
+  const atlas = useLoader(TextureLoader, ATLAS_URL);
+  const frontTexture = useMemo(() => atlasCell(atlas, cardName(type, number)), [atlas, type, number]);
+  const backTexture = useMemo(() => atlasCell(atlas, 'back'), [atlas]);
   const meshRef = useRef<THREE.Mesh>(null!);
   const [isAnimating, setIsAnimating] = useState(animate);
 
@@ -69,30 +87,36 @@ const Card: React.FC<CardProps> = ({ type, number , width = 10, height = 15,  po
     onClick={(event) => {
       console.log(currentSet)
       event.stopPropagation();
-      if(gameIndex === 1 && cardIndex <=12 && !currentSet){
+      if(gameIndex === 1 && cardIndex <=12 && canPlay){
         setPlayerCard(type,number);
         setIsAnimating(true);
       }
     }}
 >
       <Plane args={[width / 10, height / 10]} castShadow = {shadow}>
-        <meshPhysicalMaterial
+        {/* standard material + a soft env reflection instead of the costly
+            clearcoat lobe — cards are flat so the clearcoat was invisible. */}
+        <meshStandardMaterial
           attach="material"
           map={frontTexture}
           side={DoubleSide}
-          clearcoat={1.0} // this makes the material fully reflective like a clear coat of varnish. Range is 0-1.
-          clearcoatRoughness={0.0} // this makes the clear coat perfectly smooth for sharp reflections. Range is 0-1.
-          metalness={0.0} // this makes the material non-metallic. Range is 0-1.
+          roughness={0.6}
+          metalness={0.0}
+          envMapIntensity={0.3}
         />
+        {/* pulsing halo on cards the human may legally play this turn */}
+        {gameIndex === 1 && cardIndex <= 12 && canPlay && (
+          <CardGlow size={[width / 10, height / 10]} />
+        )}
       </Plane>
       <Plane args={[width / 10, height / 10]} position={[0, 0, -0.01]}>
-        <meshPhysicalMaterial
+        <meshStandardMaterial
           attach="material"
           map={backTexture}
           side={DoubleSide}
-          clearcoat={1.0} // this makes the material fully reflective like a clear coat of varnish. Range is 0-1.
-          clearcoatRoughness={0.0} // this makes the clear coat perfectly smooth for sharp reflections. Range is 0-1.
-          metalness={0.0} // this makes the material non-metallic. Range is 0-1.
+          roughness={0.6}
+          metalness={0.0}
+          envMapIntensity={0.3}
         />
       </Plane>
     </mesh>

@@ -7,9 +7,10 @@ type Props = {
     reorderCards: () => void;
     startDealing: () => void;
     collectCard: () => void;
+    canSort?: boolean;
 };
 
-const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, collectCard }) => {
+const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, collectCard, canSort = true }) => {
   return (
     <>
         <Text
@@ -17,7 +18,7 @@ const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, co
             fontSize={2}
             anchorX="center" // Horizontal center alignment of the text
             anchorY="middle" // Vertical center alignment of the text
-            position={[0, 5, 0]} // Position of the text in 3D space
+            position={[0, 4.55, 0]} // on the felt, below the cards (no z-fight)
             rotation={[-Math.PI/2,0,2 * Math.PI]}
         >
             HOKM
@@ -28,7 +29,7 @@ const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, co
             letterSpacing={0.3}
             anchorX="center" // Horizontal center alignment of the text
             anchorY="middle" // Vertical center alignment of the text
-            position={[0, 5, 1.1]} // Position of the text in 3D space
+            position={[0, 4.55, 1.1]} // on the felt, below the cards (no z-fight)
             rotation={[-Math.PI/2,0,2 * Math.PI]}
         >
             By MBGame
@@ -36,22 +37,7 @@ const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, co
 
     
 
-    { helperIndex === 0 && 
-       <Text
-            color="pink" // Default color
-            fontSize={0.5}
-            anchorX="center" // Horizontal center alignment of the text
-            anchorY="middle" // Vertical center alignment of the text
-            position={[0, 5, 2]} // Position of the text in 3D space
-            rotation={[-Math.PI/2,0,2 * Math.PI]}
-            scale={[2,2,2]}
-            onClick={startDealing}
-            onPointerOver={() => (document.body.style.cursor = 'pointer')}
-            onPointerOut={() => (document.body.style.cursor = 'default')}
-        >
-            Start the Game
-        </Text>
-    }
+    {/* Start moved to a 2D overlay (StartOverlay) */}
 
 
        
@@ -63,7 +49,7 @@ const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, co
                     fontSize={1}
                     anchorX="center" // Horizontal center alignment of the text
                     anchorY="middle" // Vertical center alignment of the text
-                    position={[0, 5, -5]} // Position of the text in 3D space
+                    position={[0, 4.55, -5]} // on the felt, below the cards (no z-fight)
                     rotation={[-Math.PI/2,0, 3 * Math.PI/2]}
                     onPointerOver={() => (document.body.style.cursor = 'pointer')}
                     onPointerOut={() => (document.body.style.cursor = 'default')}
@@ -76,19 +62,7 @@ const GameText: React.FC<Props> = ({ helperIndex, reorderCards, startDealing, co
 
   
 
-        <Text
-            color="gold" // Default color
-            fontSize={0.5}
-            anchorX="center" // Horizontal center alignment of the text
-            anchorY="middle" // Vertical center alignment of the text
-            position={[-8.5, 5, 6]} // Position of the text in 3D space
-            rotation={[-Math.PI/2,0, 3 * Math.PI/2]}
-            onClick={reorderCards}
-            onPointerOver={() => (document.body.style.cursor = 'pointer')}
-            onPointerOut={() => (document.body.style.cursor = 'default')}
-        >
-            Sort Cards
-        </Text>
+        {/* Sort moved to a 2D HUD button (GameHud) so it is reachable on phones */}
     </>
   );
 };

@@ -1,17 +1,39 @@
 import React from 'react';
-import styles from '../../styles/loading.module.css'
+import styles from '../../styles/loading.module.css';
 
-type Props = {
-    
-};
+const SUITS = [
+  { ch: '♠', red: false }, // ♠
+  { ch: '♥', red: true },  // ♥
+  { ch: '♣', red: false }, // ♣
+  { ch: '♦', red: true },  // ♦
+];
 
-const Loading: React.FC<Props> = ({  }) => {
+const Loading: React.FC = () => (
+  <div className={styles.container}>
+    <div className={styles.glow} />
+    <div className={styles.vignette} />
 
-    return (
-        <div className={styles.container}>
-            <h1>loading ...</h1>
-        </div>
-    );
-};
+    <div className={styles.content}>
+      <div className={styles.suits}>
+        {SUITS.map((s, i) => (
+          <span
+            key={i}
+            className={`${styles.suit} ${s.red ? styles.red : styles.dark}`}
+            style={{ animationDelay: `${i * 0.15}s` }}
+          >
+            {s.ch}
+          </span>
+        ))}
+      </div>
+
+      <h1 className={styles.title}>HOKM</h1>
+      <p className={styles.subtitle}>Shuffling the deck&hellip;</p>
+
+      <div className={styles.bar}>
+        <div className={styles.fill} />
+      </div>
+    </div>
+  </div>
+);
 
 export default Loading;

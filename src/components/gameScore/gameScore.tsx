@@ -11,14 +11,34 @@ type Props = {
   title?: string;
   titleColor?: string;
   names?: [string,string,string,string];
+  /** When provided, show team totals (You+Partner vs Opponents) instead of 4 players. */
+  teams?: { yours: number; opponent: number };
   collectCard: () => void;
 };
 
-const GameScore: React.FC<Props> = ({ 
+const GameScore: React.FC<Props> = ({
     collectCard, gameScore = { player1: 0, player2: 0, player3: 0, player4: 0 },
     color = '#84a02b', names = ['player1','player2','player3','player4'] ,
-    title = 'Game Score',titleColor = 'green'
+    title = 'Game Score',titleColor = 'green', teams
 }) => {
+  if (teams) {
+    return (
+      <group>
+        <Text color={titleColor} fontSize={0.7} anchorX="center" anchorY="middle"
+          position={[-2, 5, -5]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]} onClick={collectCard}>
+          {title}
+        </Text>
+        <Text color={color} fontSize={0.6} anchorX="center" anchorY="middle"
+          position={[-3.2, 5, -5]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]} onClick={collectCard}>
+          {`Your Team : ${teams.yours}`}
+        </Text>
+        <Text color="#c0532b" fontSize={0.6} anchorX="center" anchorY="middle"
+          position={[-4.2, 5, -5]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]} onClick={collectCard}>
+          {`Opponent : ${teams.opponent}`}
+        </Text>
+      </group>
+    );
+  }
   return (
     <group>
       <Text

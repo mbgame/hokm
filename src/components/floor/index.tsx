@@ -13,12 +13,12 @@ interface FloorProps {
 
 const Floor = ({ width, height, texturePath, receivedShadow = false, textureRepeat }: FloorProps) => {
 
+  // Only albedo + normal are loaded. displacement/ao/roughness had no visible
+  // effect on a segment-less plane but added ~5MB of downloads — dropped for
+  // faster mobile loads.
   const props = useTexture({
     map: `/textures/${texturePath}/albedo.png`,
-    displacementMap: `/textures/${texturePath}/height.png`,
     normalMap: `/textures/${texturePath}/normal.png`,
-    roughnessMap: `/textures/floor/roughness.png`,
-    aoMap: `/textures/${texturePath}/ao.png`,
   })
 
   return (
