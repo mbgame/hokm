@@ -5,7 +5,7 @@ import { Plane } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ATLAS_URL, cardName, indexOf, uvFor } from './atlasLayout';
-import CardGlow from '../shaders/cardGlow';
+import CardParticles from '../shaders/cardParticles';
 
 // Build a texture sampling one cell of the shared atlas (clones share the GPU
 // image, so the whole deck is a single texture upload).
@@ -104,9 +104,9 @@ const Card: React.FC<CardProps> = ({ type, number , width = 10, height = 15,  po
           metalness={0.0}
           envMapIntensity={0.3}
         />
-        {/* pulsing halo on cards the human may legally play this turn */}
+        {/* drifting sparkles on cards the human may legally play this turn */}
         {gameIndex === 1 && cardIndex <= 12 && canPlay && (
-          <CardGlow size={[width / 10, height / 10]} />
+          <CardParticles size={[width / 10, height / 10]} />
         )}
       </Plane>
       <Plane args={[width / 10, height / 10]} position={[0, 0, -0.01]}>

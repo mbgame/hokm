@@ -1,0 +1,58 @@
+.stakeBar {
+  position: fixed;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  right: 16px;
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: rgba(6, 28, 18, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+}
+.stakeLabel { font-size: 9px; letter-spacing: 2px; opacity: .6; }
+.stakeChips { display: flex; gap: 8px; }
+.stakeChip {
+  min-width: 52px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform .1s ease, border-color .1s ease;
+}
+.stakeChip:disabled { opacity: .35; cursor: default; }
+.stakeChip:not(:disabled):hover { transform: translateY(-1px); }
+.stakeActive {
+  border-color: #ffd86b;
+  background: linear-gradient(180deg, rgba(255, 216, 107, 0.28), rgba(255, 216, 107, 0.1));
+  color: #ffd86b;
+}
+
+.toast {
+  position: fixed;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: .5px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: toastIn .3s ease;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+.toastWin { background: linear-gradient(180deg, #28c76f, #14894a); }
+.toastLose { background: linear-gradient(180deg, #e74c3c, #a82315); }
+@keyframes toastIn { from { transform: translate(-50%, -8px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }

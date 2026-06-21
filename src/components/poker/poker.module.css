@@ -1,0 +1,116 @@
+.pot {
+  position: fixed;
+  top: max(16%, 140px); /* min keeps pot clear of the top bot seat on short screens */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 26px;
+  border-radius: 16px;
+  background: rgba(40,8,16,0.6);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  text-align: center;
+}
+.pot span { font-size: 10px; letter-spacing: 3px; opacity: .6; }
+.pot b { font-size: 30px; font-weight: 900; color: #ffd86b; line-height: 1.1; }
+.pot em { font-style: normal; font-size: 13px; opacity: .85; margin-top: 2px; }
+
+/* seat tags */
+.seat {
+  position: fixed;
+  z-index: 200;
+  min-width: 92px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(30,8,14,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  text-align: center;
+  transition: border-color .2s, box-shadow .2s, opacity .2s;
+}
+.active { border-color: #ffd86b; box-shadow: 0 0 0 2px rgba(255,216,107,0.4), 0 8px 20px rgba(0,0,0,0.4); }
+.folded { opacity: .4; }
+.seatName { font-size: 13px; font-weight: 800; letter-spacing: 1px; display: flex; gap: 5px; justify-content: center; align-items: center; }
+.btn { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #fff; color: #111; font-size: 10px; font-weight: 900; }
+.seatChips { font-size: 17px; font-weight: 900; color: #ffd86b; }
+.seatBet { font-size: 12px; opacity: .8; margin-top: 2px; }
+.seatAct { font-size: 11px; letter-spacing: 1px; opacity: .7; text-transform: uppercase; }
+
+/* your own tag sits inline inside the controls column (no fixed anchor) so it
+   can never collide with the action buttons below it */
+.seatStatic { position: static; transform: none; }
+.seat1 { top: 50%; right: 16px; transform: translateY(-50%); }
+.seat2 { top: 64px; left: 50%; transform: translateX(-50%); }
+.seat3 { top: 50%; left: 16px; transform: translateY(-50%); }
+
+.controls {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+.actRow { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
+
+.fold, .call, .raise {
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 13px 24px;
+  font-size: 16px;
+  color: #fff;
+}
+.fold { background: rgba(255,255,255,0.16); }
+.call { background: linear-gradient(90deg, #4cd07a, #2fa85c); color: #06210f; }
+.raise { background: linear-gradient(90deg, #ffe08a, #ffb24d); color: #15110a; }
+
+.raiseBox { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.raiseBox input { width: 150px; accent-color: #ffb24d; }
+
+.primary {
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #15110a;
+  padding: 15px 50px;
+  font-size: 20px;
+  background: linear-gradient(90deg, #ffe08a, #ffb24d);
+  box-shadow: 0 10px 30px rgba(255,170,60,0.5);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+/* phones / narrow screens */
+@media (max-width: 640px) {
+  .seat { min-width: 70px; padding: 5px 8px; }
+  .seatName { font-size: 11px; }
+  .seatChips { font-size: 14px; }
+  .seatBet, .seatAct { font-size: 10px; }
+  .seat1 { right: 8px; }
+  .seat3 { left: 8px; }
+  .seat2 { top: 52px; }
+  .pot { top: max(12%, 118px); padding: 6px 16px; }
+  .pot b { font-size: 22px; }
+  .pot em { font-size: 11px; }
+  .actRow { max-width: 96vw; gap: 8px; }
+  .fold, .call, .raise { padding: 11px 16px; font-size: 14px; }
+  .raiseBox input { width: 120px; }
+  .primary { padding: 13px 34px; font-size: 17px; }
+  .controls { bottom: max(14px, env(safe-area-inset-bottom)); gap: 8px; }
+}

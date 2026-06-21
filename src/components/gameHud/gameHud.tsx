@@ -30,6 +30,7 @@ interface Props {
   onQuality: (q: Quality) => void;
   onResetGame: () => void;
   onSettingsOpenChange?: (open: boolean) => void;
+  onBack?: () => void;   // return to the main menu
   onNext: () => void;
   onPlayAgain: () => void;
 }
@@ -49,7 +50,7 @@ const QUALITY_OPTS: Quality[] = ['low', 'medium', 'high'];
 const GameHud: React.FC<Props> = ({
   gamesWon, teamTricks, hokm, trickTarget, matchTarget, hakemSeat,
   gameOver, matchOver, winningTeam, resultBadge, showScore, canSort, onSort,
-  quality, onQuality, onResetGame, onSettingsOpenChange, onNext, onPlayAgain,
+  quality, onQuality, onResetGame, onSettingsOpenChange, onBack, onNext, onPlayAgain,
 }) => {
   const youWon = winningTeam === 0;
   const [settingsOpen, setSettingsOpen] = React.useState(false);
@@ -158,6 +159,13 @@ const GameHud: React.FC<Props> = ({
                 className={styles.resetBtn}
                 onClick={() => { setSettingsOpen(false); onResetGame(); }}
               >Reset Game</button>
+
+              {onBack && (
+                <button
+                  className={styles.menuBtn}
+                  onClick={() => { sfx.click(); setSettingsOpen(false); onBack(); }}
+                >◂ Main Menu</button>
+              )}
             </div>
           </div>
         )}

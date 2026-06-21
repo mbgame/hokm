@@ -280,6 +280,25 @@
 }
 .resetBtn:hover { background: rgba(210, 80, 60, 0.34); }
 
+.menuBtn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #15110a;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffe08a, #ffb24d);
+  cursor: pointer;
+  transition: filter 0.12s ease;
+}
+.menuBtn:hover { filter: brightness(1.08); }
+
 /* ---- mute toggle (top-right) ---- */
 .muteBtn {
   position: absolute;

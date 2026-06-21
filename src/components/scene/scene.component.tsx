@@ -8,6 +8,7 @@ import { cardData } from '../../mockData/cards';
 import { dealerAnim } from '../../mockData/animations';
 import { randNumber } from '../../utils/randNumber';
 import Card from '../card/card';
+import ChipStack from '../chips3d/chipStack';
 import SpotLightWithHelper from '../lights/spotLightHelper';
 import Floor from '../floor';
 import Table from '../table';
@@ -80,7 +81,30 @@ interface Card {
     value:number;
   }
 
-const Scene: React.FC = () => {
+// Snapshot of the human seat for the flat 2D hand mirror rendered as a DOM
+// overlay outside the canvas (accessibility: readable for low-vision players).
+export interface HumanHudState {
+  hand: Card[];
+  legalKeys: Set<string>;
+  humanTurn: boolean;
+  gameStarted: boolean;
+  play: (type: Suit, number: Card['number']) => void;
+}
+
+// `onGameResult` fires once each time a 7-trick game is decided (true = the
+// human's team won) so the wallet wrapper can settle the table stake.
+// `onHud` mirrors the human's live hand out to the DOM 2D hand bar.
+const Scene: React.FC<{
+  onGameResult?: (humanWon: boolean) => void;
+  stake?: number;
+  onHud?: (state: HumanHudState) => void;
+  onBack?: () => void;
+  onStarted?: () => void;
+}> = ({ onGameResult, stake = 0, onHud, onBack, onStarted }) => {
+    const onGameResultRef = React.useRef(onGameResult);
+    onGameResultRef.current = onGameResult;
+    const onHudRef = React.useRef(onHud);
+    onHudRef.current = onHud;
     const [animationIndex, setAnimationIndex] = React.useState<number>(-1);
     const [animation, setAnimation] = React.useState(dealerAnim);
     const [reserveAnimation, setReserveAnimation] = React.useState(dealerAnim);
@@ -379,6 +403,7 @@ const Scene: React.FC = () => {
     setResultBadge(badge);
     setMatchOver(gw[winTeam] >= MATCH_TARGET);
     setGameOver(true);
+    onGameResultRef.current?.(winTeam === 0); // settle table stake on the shared wallet
     if (winTeam === 0) {
       sfx.cheer();
       setCelebrate(true);
@@ -487,6 +512,7 @@ const Scene: React.FC = () => {
     resumeAudio();
     sfx.click();
     startDealing();
+    onStarted?.();   // tell the wrapper the game began -> hide stake picker
   };
   const startPlaying = () => {
     setAnimationIndex(-1);
@@ -689,6 +715,19 @@ const Scene: React.FC = () => {
   // so it can never disagree with what setPlayerCard will accept.
   const canPlayCard = (card: Card): boolean => humanTurn && humanLegal.has(cardKey(card));
 
+  // Mirror the human's live hand to the DOM 2D hand bar whenever it changes.
+  // playedCardSets[0] is the human's remaining hand as state (updates after each
+  // play); setPlayerCard enforces the same legality as the 3D cards.
+  React.useEffect(() => {
+    onHudRef.current?.({
+      hand: (playedCardSets[0] as Card[]) || [],
+      legalKeys: humanLegal,
+      humanTurn,
+      gameStarted: gameIndex === 1,
+      play: setPlayerCard,
+    });
+  }, [playedCardSets, humanLegal, humanTurn, gameIndex]);
+
 
   return (
     <>
@@ -748,7 +787,7 @@ const Scene: React.FC = () => {
             winningTeam={winningTeam} resultBadge={resultBadge}
             showScore={gameIndex === 1} canSort={gameIndex === 1 && (playedCardSets[0]?.length === 13)} onSort={reorderCards}
             quality={quality} onQuality={onQuality} onResetGame={playAgain}
-            onSettingsOpenChange={setSettingsOpen}
+            onSettingsOpenChange={setSettingsOpen} onBack={onBack}
             onNext={nextGame} onPlayAgain={playAgain} /> }
 
         {/* add Floor to scene ----------------------------------------------------------------*/}
@@ -756,6 +795,9 @@ const Scene: React.FC = () => {
 
         {/* lightweight table (primitives + procedural felt) instead of a 30MB model -------*/}
         <Table position={[0, 4.1, 0]} radius={15} receivedShadow />
+
+        {/* per-game stake chips resting on the felt -----------------------------------------*/}
+        {gameIndex === 1 && <ChipStack amount={stake} position={[-2.5, 4.65, 6]} />}
 
         {/* discard / burned-cards tray ------------------------------------------------------*/}
         <mesh position={[4, 4.6, 3.5]} receiveShadow>

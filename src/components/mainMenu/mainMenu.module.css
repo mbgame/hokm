@@ -1,0 +1,131 @@
+.root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vh, 44px);
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+  background: #06140d;
+}
+
+/* animated felt gradient backdrop */
+.bg {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 30% 25%, #11633a 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, #0b3b6b 0%, transparent 55%),
+    radial-gradient(circle at 55% 50%, #5a1330 0%, transparent 60%),
+    #06140d;
+  filter: saturate(1.05);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.12) translate(-2%, -2%); }
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, transparent 40%, rgba(0,0,0,0.65) 100%);
+  pointer-events: none;
+}
+
+.head { position: relative; text-align: center; z-index: 2; }
+.suits { display: flex; gap: 14px; justify-content: center; font-size: clamp(20px, 5vw, 34px); margin-bottom: 6px; }
+.suits .red { color: #ff5a6e; }
+.suits .dark { color: #e8e8e8; }
+.suits span { filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5)); animation: bob 2.4s ease-in-out infinite; }
+.suits span:nth-child(2) { animation-delay: .2s; }
+.suits span:nth-child(3) { animation-delay: .4s; }
+.suits span:nth-child(4) { animation-delay: .6s; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.brand {
+  margin: 0;
+  font-size: clamp(34px, 9vw, 74px);
+  font-weight: 900;
+  letter-spacing: clamp(4px, 1.5vw, 12px);
+  background: linear-gradient(100deg, #ffe9a8, #ffb347 40%, #fff3cf 55%, #ffae33 75%, #ffe9a8);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(255, 170, 50, 0.45));
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { to { background-position: 220% center; } }
+.sub { margin: 6px 0 0; opacity: .7; letter-spacing: 4px; text-transform: uppercase; font-size: clamp(11px, 2.6vw, 14px); }
+
+.grid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2.4vw, 26px);
+  justify-content: center;
+  padding: 0 16px;
+  max-width: 1000px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  width: clamp(230px, 28vw, 280px);
+  min-height: 300px;
+  padding: 26px 22px 24px;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  text-align: left;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(20, 26, 34, 0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 26px 60px rgba(0,0,0,0.55); }
+.card:active { transform: translateY(-2px) scale(0.99); }
+
+/* per-game accent glow */
+.green { background-image: linear-gradient(160deg, rgba(22,120,68,0.55), rgba(8,40,24,0.35)); }
+.blue  { background-image: linear-gradient(160deg, rgba(28,96,178,0.55), rgba(8,28,55,0.35)); }
+.red   { background-image: linear-gradient(160deg, rgba(168,32,72,0.55), rgba(48,8,24,0.35)); }
+
+.shine {
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 60%;
+  height: 220%;
+  background: linear-gradient(75deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: rotate(8deg);
+  transition: transform .6s ease;
+}
+.card:hover .shine { transform: translateX(260%) rotate(8deg); }
+
+.suit { font-size: 46px; line-height: 1; opacity: .9; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5)); }
+.tag { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; opacity: .7; }
+.title { margin: 0; font-size: clamp(26px, 4vw, 34px); font-weight: 900; letter-spacing: 2px; }
+.blurb { margin: 0; font-size: 14px; line-height: 1.5; opacity: .82; flex: 1; }
+.play {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 9px 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffe08a, #ffb24d);
+  color: #15110a;
+  box-shadow: 0 8px 22px rgba(255,170,60,0.4);
+}
+
+.foot { position: relative; z-index: 2; opacity: .55; letter-spacing: 2px; font-size: 12px; text-transform: uppercase; }

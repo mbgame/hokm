@@ -1,0 +1,152 @@
+/* ---- chip badge (top-left on every table) ---- */
+.badge {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  left: 14px;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px 7px 10px;
+  border-radius: 14px;
+  background: rgba(8, 16, 30, 0.7);
+  border: 1px solid rgba(255, 216, 107, 0.35);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  transition: transform .12s ease, border-color .12s ease;
+}
+.badge:hover { transform: translateY(-1px); border-color: rgba(255, 216, 107, 0.7); }
+.badge:active { transform: translateY(0); }
+.stack { font-size: 22px; line-height: 1; }
+.badgeCol { display: flex; flex-direction: column; align-items: flex-start; }
+.badgeLabel { font-size: 9px; letter-spacing: 2px; opacity: .6; }
+.badgeVal { font-size: 18px; color: #ffd86b; font-weight: 900; }
+.plus {
+  margin-left: 2px;
+  width: 22px; height: 22px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #28c76f, #14894a);
+  color: #fff; font-weight: 900; font-size: 16px;
+}
+
+/* ---- spin wheel modal ---- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 14, 0.72);
+  backdrop-filter: blur(4px);
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+.modal {
+  width: min(92vw, 360px);
+  padding: 22px 22px 20px;
+  border-radius: 22px;
+  background: radial-gradient(120% 100% at 50% 0%, #15324d 0%, #0b1626 70%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  color: #fff;
+}
+.wheelTitle { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: .5px; }
+.wheelSub { margin: 6px 0 16px; font-size: 13px; opacity: .7; }
+
+.wheelWrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 14px;
+}
+.wheel {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 6px solid #ffd86b;
+  box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+/* thin radial strip: bottom edge sits at the wheel centre, so rotating it spins
+   the label around the hub; the text rides near the rim. */
+.wheelLabel {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 50%;
+  transform-origin: bottom center;
+}
+.wheelLabelText {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+.pointer {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid #ffd86b;
+  z-index: 3;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+}
+.hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff, #cfa23a);
+  border: 3px solid #fff;
+  z-index: 2;
+}
+
+.prize {
+  font-size: 22px;
+  font-weight: 900;
+  color: #28c76f;
+  margin: 4px 0 14px;
+  animation: pop .35s ease;
+}
+.prizePlaceholder { font-size: 13px; opacity: .7; margin: 4px 0 14px; }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.wheelBtns { display: flex; gap: 10px; justify-content: center; }
+.spinBtn {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffe08a, #f0b429);
+  color: #3a2a05;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.spinBtn:disabled { opacity: .6; cursor: default; }
+.closeBtn {
+  flex: 1;
+  padding: 12px 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.closeBtn:disabled { opacity: .5; cursor: default; }

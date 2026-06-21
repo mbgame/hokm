@@ -1,50 +1,49 @@
 "use client"
-import React, { Suspense } from "react";
-// import Image from "next/image";
+import React from "react";
 import styles from "./page.module.css";
-import { Canvas } from '@react-three/fiber';
-import { ACESFilmicToneMapping } from 'three';
 import type { NextPage } from 'next';
-import dynamic from 'next/dynamic';
 import Loading from "../components/loading/loading";
-import Scene from "../components/scene/scene.component";
-
-// const SceneWithNoSSR = dynamic(() => import('../components/scene/scene.component'), {
-//   ssr: false,
-// });
-
+import MainMenu, { type GameId } from "../components/mainMenu/mainMenu";
+import BlackjackGame from "../components/blackjack/blackjackGame";
+import PokerGame from "../components/poker/pokerGame";
+import HokmGame from "../components/hokm/hokmGame";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = React.useState<boolean>(true)
+  // null = main menu; otherwise the selected game
+  const [game, setGame] = React.useState<GameId | null>(null);
 
   React.useEffect(() => {
     const t = setTimeout(() => setLoading(false), 3500);
     return () => clearTimeout(t);
   }, []);
 
+  if (loading) {
+    return <main className={styles.main}><Loading /></main>;
+  }
+
+  if (game === null) {
+    return (
+      <main className={styles.main}>
+        <MainMenu onSelect={setGame} />
+      </main>
+    );
+  }
+
+  if (game === 'blackjack') {
+    return <main className={styles.main}><BlackjackGame onBack={() => setGame(null)} /></main>;
+  }
+
+  if (game === 'poker') {
+    return <main className={styles.main}><PokerGame onBack={() => setGame(null)} /></main>;
+  }
+
+  // Hokm — same 3D scene, now wrapped with the shared wallet + per-game stake.
   return (
     <main className={styles.main}>
-      {loading ? 
-      <Loading /> :
-      <Canvas
-        shadows
-        dpr={[1, 1.75]}
-        gl={{
-          antialias: true,
-          powerPreference: 'high-performance',
-          toneMapping: ACESFilmicToneMapping, // filmic contrast/highlight rolloff — ~free
-          toneMappingExposure: 0.92,
-        }}
-        style={{ width: '100vw', height: '100dvh', backgroundColor: '#0c4a2a', touchAction: 'none' }}
-      >
-        <Suspense fallback={null}>
-          <Scene  />
-        </Suspense>
-      </Canvas>
-      }
+      <HokmGame onBack={() => setGame(null)} />
     </main>
   );
-
 };
 
 export default Home;

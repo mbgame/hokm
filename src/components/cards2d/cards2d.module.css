@@ -1,0 +1,121 @@
+.bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 240;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  max-width: 100vw;
+  pointer-events: none;
+}
+
+.label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: #fff;
+  opacity: 0.7;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 8px;
+}
+
+.card {
+  pointer-events: auto;
+  position: relative;
+  width: 42px;
+  height: 60px;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: #fdfdfb;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+
+.small { width: 34px; height: 49px; }
+
+.red { color: #d11e2a; }
+.black { color: #15181d; }
+
+.rank {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+.small .rank { font-size: 12px; top: 2px; left: 4px; }
+
+.suit { font-size: 26px; line-height: 1; }
+.small .suit { font-size: 21px; }
+
+/* face-down card back */
+.back {
+  background:
+    repeating-linear-gradient(45deg, #b22 0 6px, #911 6px 12px);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* dimmed = present but not actionable this turn */
+.dim { opacity: 0.5; }
+
+/* legal = playable this turn: full opacity, gold ring, lifts on hover */
+.legal {
+  opacity: 1;
+  cursor: pointer;
+  border-color: #ffd86b;
+  box-shadow: 0 0 0 2px #ffd86b, 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.legal:hover { transform: translateY(-8px); }
+.legal:active { transform: translateY(-3px); }
+
+/* floating "show 2D cards" toggle */
+.peekBtn {
+  position: fixed;
+  z-index: 260;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 24, 44, 0.66);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .5px;
+  cursor: pointer;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  transition: transform .1s ease, border-color .1s ease;
+}
+.peekBtn:hover { transform: translateY(-1px); border-color: #ffd86b; }
+.peekBtn:active { transform: translateY(0); }
+
+/* fade the strips in when peeked */
+.bar { animation: peekIn .18s ease; }
+@keyframes peekIn { from { opacity: 0; transform: translate(-50%, 6px); } to { opacity: 1; } }
+
+@media (max-width: 520px) {
+  .card { width: 34px; height: 49px; }
+  .suit { font-size: 21px; }
+  .rank { font-size: 12px; }
+  .small { width: 28px; height: 40px; }
+  .small .suit { font-size: 17px; }
+  .small .rank { font-size: 10px; }
+}
