@@ -129,3 +129,35 @@
 }
 
 .foot { position: relative; z-index: 2; opacity: .55; letter-spacing: 2px; font-size: 12px; text-transform: uppercase; }
+
+/* phones: let the menu scroll and shrink the cards into compact rows so all
+   three fit without being clipped by the fixed full-screen container */
+@media (max-width: 640px) {
+  .root {
+    justify-content: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: max(18px, env(safe-area-inset-top)) 0 max(18px, env(safe-area-inset-bottom));
+    gap: clamp(14px, 3vh, 24px);
+  }
+  .grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 12px;
+  }
+  .card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: min(420px, 92vw);
+    min-height: 0;
+    padding: 16px 18px;
+    gap: 6px 14px;
+  }
+  .suit { font-size: 34px; }
+  .tag { width: 100%; order: -1; }
+  .title { font-size: clamp(22px, 6vw, 28px); }
+  .blurb { flex-basis: 100%; font-size: 13px; line-height: 1.4; }
+  .play { margin-top: 2px; padding: 8px 18px; }
+}
